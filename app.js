@@ -27,7 +27,7 @@ const statusOf = (w) => {
   return STATUS[(snap.state[w.id] || { kind: 'pending' }).kind];
 };
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const pct = (x) => `${Math.round(x * 100)}%`;
+const pct = (x) => (x >= 0.995 && x < 1 ? '>99%' : x > 0 && x < 0.005 ? '<1%' : `${Math.round(x * 100)}%`);
 const tone = (p) => (p < 0.35 ? 'lo' : p < 0.7 ? 'mid' : 'hi');
 
 function card(w, crit) {
@@ -117,6 +117,7 @@ function interventionsFor(p) {
   for (const c of cands) {
     const f = forecast(P, NOW, { runs: RUNS, phases: PHASES, fit, interventions: c.iv });
     c.cal = Object.fromEntries(PHASES.map((q) => [q, calibratePhase(f.phase[q], phaseEnd(q), cs.s)]));
+    c.res = f.phase;
     c.ref = refCal;
     c.gain = c.cal[p].pOnTime - refCal[p].pOnTime;
   }
@@ -172,7 +173,7 @@ function renderPanel() {
 
   const sc = S.scenario && S.ivCache[p]?.find((c) => c.key === S.scenario);
   const C = sc ? sc.cal[p] : S.cal[p];
-  const R = base.phase[p];
+  const R = sc ? sc.res[p] : base.phase[p]; // breakdown and chain follow the active scenario
   const vel = base.velocity[p];
   if (sc) html += `<div class="scen"><i data-lucide="sparkles"></i>Scenario: ${esc(sc.label)}<button data-reset>Reset</button></div>`;
   html += `<div class="hero"><div class="big ${tone(C.pOnTime)}">${pct(C.pOnTime)}</div><div class="lbl">chance every work order in Phase ${p}<br>is completed by <b>${fmtDay(phaseEnd(p), true)}</b></div></div>`;
@@ -258,5 +259,9 @@ function wire() {
   }));
 }
 
+// deep links: #phase=11, #phase=mission, #phase=10&scenario=rev
+const hp = new URLSearchParams(location.hash.slice(1));
+if (hp.get('phase')) S.focus = hp.get('phase') === 'mission' ? 'mission' : +hp.get('phase');
+if (hp.get('scenario') && S.focus !== 'mission') { interventionsFor(S.focus); S.scenario = hp.get('scenario'); }
 renderPanel();
 window.__forecastReady = true;
