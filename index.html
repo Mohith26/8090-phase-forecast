@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Work Orders · Ledger Plus · 8090 Software Factory (concept: Phase Forecast)</title>
+  <meta name="description" content="Unofficial concept demo: calibrated delivery forecasts for Software Factory work-order phases." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M1 14V7l3 2V6l3 2V4l3 2V2h5v12z' fill='%23e6e4e1'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="app.css" />
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sb-head">
+        <svg class="logo" viewBox="0 0 18 14" aria-hidden="true"><path d="M0 14V6.2l4.2 2.6V5.3l4.2 2.6V3.4l4.2 2.6V0H18v14z" fill="currentColor"/></svg>
+        <span class="brand">Software Factory</span>
+        <button class="icon-btn bell" aria-label="Notifications"><i data-lucide="bell"></i></button>
+      </div>
+      <div class="sb-search"><i data-lucide="search"></i><span>Search</span><kbd>⌘K</kbd></div>
+      <nav class="sb-nav">
+        <a><i data-lucide="house"></i>Home</a>
+        <a><i data-lucide="message-square"></i>Agents</a>
+        <a><i data-lucide="scroll-text"></i>Skills</a>
+        <a><i data-lucide="bot"></i>Automations</a>
+        <a><i data-lucide="message-square"></i>Knowledge Base</a>
+        <div class="sep"></div>
+        <a><i data-lucide="box"></i>Requirements</a>
+        <a><i data-lucide="map"></i>Blueprints</a>
+        <a class="active"><i data-lucide="list-todo"></i>Work Orders</a>
+        <a><i data-lucide="badge-check"></i>Tests</a>
+        <a><i data-lucide="inbox"></i>Feedback</a>
+        <div class="sep"></div>
+        <a><i data-lucide="settings-2"></i>Settings</a>
+        <a><i data-lucide="mail"></i>Contact Support</a>
+      </nav>
+      <div class="sb-foot">
+        <span class="avatar sm">AW</span><span class="who">ava@ledgerplus.io</span>
+        <button class="icon-btn" aria-label="Send feedback"><i data-lucide="message-circle"></i></button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-btn" aria-label="Toggle sidebar"><i data-lucide="panel-left"></i></button>
+        <span class="crumb">Work Orders</span>
+        <span class="grow"></span>
+        <button class="icon-btn" aria-label="Toggle panel"><i data-lucide="panel-right"></i></button>
+      </header>
+      <div class="content">
+        <section class="board-wrap">
+          <div class="toolbar">
+            <div class="tb-search"><i data-lucide="search"></i><span>Search</span></div>
+            <button class="tb-btn" aria-label="Display settings"><i data-lucide="sliders-horizontal"></i></button>
+            <button class="tb-btn" aria-label="Filter"><i data-lucide="list-filter"></i></button>
+            <button class="tb-btn" aria-label="Saved views"><i data-lucide="bookmark"></i></button>
+            <span class="view-chip"><i data-lucide="bookmark"></i>Current &amp; upcoming phases</span>
+            <span class="grow"></span>
+            <button class="tb-btn wide active" id="forecastToggle"><i data-lucide="chart-no-axes-gantt"></i>Forecast</button>
+          </div>
+          <div class="board" id="board"></div>
+          <div class="disclaimer">Unofficial concept demo by Mohith Gajjela. Not affiliated with 8090. Synthetic data.</div>
+        </section>
+        <aside class="fpanel" id="panel" aria-label="Phase Forecast"></aside>
+      </div>
+    </main>
+  </div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
